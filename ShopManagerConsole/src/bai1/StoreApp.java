@@ -4,18 +4,8 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Ứng dụng quản lý sản phẩm (console) – chạy trong Eclipse.
- * Đáp ứng:
- * (1) Cập nhật sản phẩm (giá, mô tả, tồn kho...)
- * (2) Liệt kê theo giá / theo danh mục
- * (3) Tổng giá trị tồn kho theo danh mục
- * (4) Giảm giá theo %
- * (5) Đặt hàng: chọn số lượng, trừ kho, tính tổng tiền
- */
 public class StoreApp {
 
-    // ========= Entry point =========
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
 
@@ -40,7 +30,6 @@ public class StoreApp {
         return new BigDecimal(v).setScale(0, RoundingMode.HALF_UP);
     }
 
-    // ========= Console menu =========
     private static void runMenu(Inventory inventory) {
         Scanner sc = new Scanner(System.in);
         boolean running = true;
@@ -211,7 +200,6 @@ public class StoreApp {
             System.out.println("(Danh sách trống)");
             return;
         }
-        // Header: độ rộng cột mô tả 40 ký tự
         System.out.printf("%-6s %-24s %-12s %-12s %-8s %-8s %-40s%n",
                 "ID", "Tên", "Danh mục", "Giá", "Giảm(%)", "Tồn", "Mô tả");
 
@@ -233,7 +221,6 @@ public class StoreApp {
 }
 
 
-/* ===================== DƯỚI ĐÂY LÀ CÁC LỚP PHỤ ===================== */
 
 enum Category {
     ELECTRONICS, FASHION, GROCERY, HOME, BEAUTY, OTHER
@@ -243,10 +230,10 @@ class Product {
     private int id;
     private String name;
     private Category category;
-    private BigDecimal price;              // giá gốc
+    private BigDecimal price;            
     private String description;
     private int stock;
-    private BigDecimal discountPercent;    // 0–100
+    private BigDecimal discountPercent;    
 
     public Product(int id, String name, Category category, BigDecimal price, String description, int stock) {
         this.id = id;
@@ -296,7 +283,7 @@ class Product {
 class OrderItem {
     private final Product product;
     private final int quantity;
-    private final BigDecimal unitPrice;  // đã tính giảm
+    private final BigDecimal unitPrice; 
     private final BigDecimal lineTotal;
 
     public OrderItem(Product product, int quantity) {
@@ -382,7 +369,7 @@ class Inventory {
                         + " (còn " + p.getStock() + ", yêu cầu " + qty + ")");
             }
         }
-        // Trừ kho + tạo OrderItem
+       
         List<OrderItem> items = new ArrayList<>();
         for (Map.Entry<Integer, Integer> e : idQty.entrySet()) {
             Product p = getRequired(e.getKey());
